@@ -9,8 +9,18 @@ https://docs.djangoproject.com/en/5.1/topics/settings/
 For the full list of settings and their values, see
 https://docs.djangoproject.com/en/5.1/ref/settings/
 """
-
+import datetime
 from pathlib import Path
+
+import django
+from django.utils.encoding import force_str, smart_str
+from django.utils.translation import gettext, gettext_lazy
+
+django.utils.encoding.smart_text = smart_str
+django.utils.encoding.force_text = force_str
+django.utils.translation.ugettext = gettext
+django.utils.translation.ugettext_lazy = gettext_lazy
+
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -37,9 +47,18 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    "allauth",
+    "allauth.account",
+    "allauth.socialaccount",
     'rest_framework',
+    'rest_framework.authtoken',
+
     'rest_framework_simplejwt',
     'django_filters',
+
+    'dj_rest_auth',
+    'dj_rest_auth.registration',
+
     'apps.users',
     'apps.products',
     'apps.orders',
@@ -56,6 +75,8 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    # "allauth.account.middleware.AccountMiddleware",
+
 ]
 
 ROOT_URLCONF = 'config.urls'
@@ -150,5 +171,58 @@ REST_FRAMEWORK = {
         "rest_framework.parsers.MultiPartParser",
     ),
 }
+SIMPLE_JWT = {
+    "ACCESS_TOKEN_LIFETIME": datetime.timedelta(minutes=50),
+    "REFRESH_TOKEN_LIFETIME": datetime.timedelta(days=7),
+    "AUTH_HEADER_TYPES": ("Bearer", "JWT", "Token"),
+    "ROTATE_REFRESH_TOKENS": True,
+}
 
+REST_USE_JWT = True
+
+REST_AUTH_REGISTER_SERIALIZERS = {
+    "REGISTER_SERIALIZER": "apps.users.api.serializers.RegisterSerializer",
+}
+
+REST_AUTH_SERIALIZERS = {
+    # "USER_DETAILS_SERIALIZER": "src.apps.authentication.custom_account.api.serializers.UserDetailsSerializer",
+    "LOGIN_SERIALIZER": "apps.users.api.serializers.CustomLoginSerializer",
+    # "PASSWORD_RESET_SERIALIZER": "src.apps.authentication.custom_account.api.serializers.CustomPasswordResetSerializer",  # noqa
+}
 AUTH_USER_MODEL = 'users.CustomUser'
+
+REST_USE_JWT = True
+SITE_ID = 1
+
+# ==============================================================================
+# DJANGO ALLAUTH SETTINGS
+# ==============================================================================
+
+ACCOUNT_EMAIL_REQUIRED = True
+
+ACCOUNT_EMAIL_VERIFICATION = "optional"
+
+ACCOUNT_AUTHENTICATION_METHOD = "username_email"
+
+ACCOUNT_USER_DISPLAY = lambda user: user.get_full_name()  # noqa
+
+ACCOUNT_SIGNUP_PASSWORD_ENTER_TWICE = False
+
+ACCOUNT_UNIQUE_EMAIL = True
+
+ACCOUNT_USERNAME_REQUIRED = False
+
+# =========================================================
+# EMAIL SETTINGS
+# =========================================================
+
+EMAIL_BACKEND = "django.core.mail.backends.filebased.EmailBackend"
+EMAIL_FILE_PATH = "tmp/app-messages"  # change this to a proper location
+
+AUTHENTICATION_BACKENDS = [
+    # Needed to login by username in Django admin, regardless of `allauth`
+    'django.contrib.auth.backends.ModelBackend',
+
+    # `allauth` specific authentication methods, such as login by email
+    'allauth.account.auth_backends.AuthenticationBackend',
+]

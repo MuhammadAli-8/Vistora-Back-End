@@ -17,7 +17,6 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path, include
 from rest_framework.routers import DefaultRouter
-from django.urls import path, include
 
 from apps.orders.api.viewsets import OrderItemViewSet, CartViewSet, ShippingViewSet
 from apps.payment.api.viewsets import PaymentViewSet
@@ -37,6 +36,8 @@ router.register(r'payments', PaymentViewSet, basename='payment')
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('api/', include(router.urls)),
-    path('api-auth/', include('rest_framework.urls', namespace='rest_framework'))
+    path('api-auth/', include('rest_framework.urls', namespace='rest_framework')),
+    path('api/authentication/', include('dj_rest_auth.urls')),
+    path('api/authentication/registration/', include('dj_rest_auth.registration.urls')),
 
 ]
