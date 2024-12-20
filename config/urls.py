@@ -18,12 +18,16 @@ from django.contrib import admin
 from django.urls import path, include
 from rest_framework.routers import DefaultRouter
 from django.urls import path, include
+
+from apps.orders.api.viewsets import OrderItemViewSet, CartViewSet
 from apps.products.api.viewsets import ProductViewSet
 from apps.users.api.viewsets import UserViewSet
 
 router = DefaultRouter()
 router.register(r'products', ProductViewSet, basename='product')
 router.register(r'users', UserViewSet, basename='users')
+router.register(r'orders', OrderItemViewSet, basename='orders')
+router.register(r'cart', CartViewSet, basename='cart')
 
 
 urlpatterns = [
