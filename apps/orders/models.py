@@ -11,6 +11,7 @@ class OrderItem(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
     ordered = models.BooleanField(default=False)
     user = models.ForeignKey('users.CustomUser', on_delete=models.CASCADE, related_name='order_items', null=True)
+    status = models.CharField(max_length=255, default='Pending')
 
     def save(self, *args, **kwargs):
         # Automatically calculate the total price based on the product price and quantity
@@ -33,3 +34,15 @@ class Cart(models.Model):
 
     def total_cost(self):
         return sum(item.total_price for item in self.items.all())
+
+
+
+class Shipping(models.Model):
+    order = models.ForeignKey(OrderItem, on_delete=models.CASCADE, related_name='shipping_details')
+    shipping_date = models.DateTimeField()
+    delivery_date = models.DateTimeField(null=True, blank=True)
+    tracking_number = models.CharField(max_length=255, unique=True)
+    provider_name = models.CharField(max_length=255)
+
+    def __str__(self):
+        return f"Shipping #{self.id} for Order #{self.order.id} by {self.provider_name}"
