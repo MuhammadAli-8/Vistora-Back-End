@@ -1,7 +1,7 @@
 from rest_framework import viewsets
 
-from apps.orders.api.serializers import OrderItemSerializer, CartSerializer
-from apps.orders.models import OrderItem, Cart
+from apps.orders.api.serializers import OrderItemSerializer, CartSerializer, ShippingSerializer
+from apps.orders.models import OrderItem, Cart, Shipping
 
 
 class OrderItemViewSet(viewsets.ModelViewSet):
@@ -20,3 +20,10 @@ class CartViewSet(viewsets.ModelViewSet):
         return obj
     def list(self, request, *args, **kwargs):
         return super().retrieve(request, *args, **kwargs)
+
+
+
+
+class ShippingViewSet(viewsets.ModelViewSet):
+    queryset = Shipping.objects.all()
+    serializer_class = ShippingSerializer

@@ -1,10 +1,11 @@
 from rest_framework import serializers
 
-from apps.orders.models import OrderItem, Cart
+from apps.orders.models import OrderItem, Cart, Shipping
 from apps.products.api.serializers import ProductSerializer
+from core.utils import BaseSaveSerializer
 
 
-class OrderItemSerializer(serializers.ModelSerializer):
+class OrderItemSerializer(BaseSaveSerializer):
 
     class Meta:
         model = OrderItem
@@ -17,15 +18,7 @@ class OrderItemSerializer(serializers.ModelSerializer):
         return data
 
 
-    def save(self):
-        """
-        Saves service data.
-        """
-        request = self.context.get("request")
-        if request and hasattr(request, "user"):
-            user = request.user
-            self.validated_data["user"] = user
-        super().save()
+
 class CartSerializer(serializers.ModelSerializer):
     items = OrderItemSerializer(many=True, read_only=True)
     total_cost = serializers.SerializerMethodField()
@@ -36,3 +29,9 @@ class CartSerializer(serializers.ModelSerializer):
 
     def get_total_cost(self, obj):
         return obj.total_cost()
+
+
+class ShippingSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Shipping
+        fields = '__all__'

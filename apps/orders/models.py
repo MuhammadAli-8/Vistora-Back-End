@@ -30,7 +30,7 @@ class Cart(models.Model):
 
 
     def __str__(self):
-        return f"Cart {self.id} with {self.items.count()} items"
+        return f"Cart {self.id} for user {self.user} with {self.items.count()} items"
 
     def total_cost(self):
         return sum(item.total_price for item in self.items.all())
@@ -38,7 +38,7 @@ class Cart(models.Model):
 
 
 class Shipping(models.Model):
-    order = models.ForeignKey(OrderItem, on_delete=models.CASCADE, related_name='shipping_details')
+    order = models.ForeignKey(Cart, on_delete=models.CASCADE, related_name='shipping_details')
     shipping_date = models.DateTimeField()
     delivery_date = models.DateTimeField(null=True, blank=True)
     tracking_number = models.CharField(max_length=255, unique=True)

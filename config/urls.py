@@ -19,8 +19,9 @@ from django.urls import path, include
 from rest_framework.routers import DefaultRouter
 from django.urls import path, include
 
-from apps.orders.api.viewsets import OrderItemViewSet, CartViewSet
-from apps.products.api.viewsets import ProductViewSet
+from apps.orders.api.viewsets import OrderItemViewSet, CartViewSet, ShippingViewSet
+from apps.payment.api.viewsets import PaymentViewSet
+from apps.products.api.viewsets import ProductViewSet, ReviewViewSet
 from apps.users.api.viewsets import UserViewSet
 
 router = DefaultRouter()
@@ -28,6 +29,9 @@ router.register(r'products', ProductViewSet, basename='product')
 router.register(r'users', UserViewSet, basename='users')
 router.register(r'orders', OrderItemViewSet, basename='orders')
 router.register(r'cart', CartViewSet, basename='cart')
+router.register(r'reviews', ReviewViewSet, basename='reviews')
+router.register(r'shipping', ShippingViewSet, basename='shipping')
+router.register(r'payments', PaymentViewSet, basename='payment')
 
 
 urlpatterns = [
