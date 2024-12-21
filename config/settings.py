@@ -52,12 +52,11 @@ INSTALLED_APPS = [
     "allauth.socialaccount",
     'rest_framework',
     'rest_framework.authtoken',
-
     'rest_framework_simplejwt',
     'django_filters',
-
     'dj_rest_auth',
     'dj_rest_auth.registration',
+    'corsheaders',
 
     'apps.users',
     'apps.products',
@@ -76,6 +75,8 @@ MIDDLEWARE = [
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
     # "allauth.account.middleware.AccountMiddleware",
+        'corsheaders.middleware.CorsMiddleware',
+
 
 ]
 
@@ -233,4 +234,9 @@ AUTHENTICATION_BACKENDS = [
 
     # `allauth` specific authentication methods, such as login by email
     'allauth.account.auth_backends.AuthenticationBackend',
+]
+
+CORS_ALLOW_ALL_ORIGINS = True
+CORS_ALLOWED_ORIGINS = [
+    "http://localhost:3000",
 ]
