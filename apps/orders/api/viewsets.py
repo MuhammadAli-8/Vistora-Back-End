@@ -6,12 +6,14 @@ from apps.orders.models import OrderItem, Cart, Shipping
 
 class OrderItemViewSet(viewsets.ModelViewSet):
     serializer_class = OrderItemSerializer
+    
     def get_queryset(self):
         return OrderItem.objects.filter(user=self.request.user, ordered=False)
 
 class CartViewSet(viewsets.ModelViewSet):
     serializer_class = CartSerializer
-    allowed_methods = ['get']
+    http_method_names = ['get', 'delete', 'post']
+    # allowed_methods = ['get']
     def get_object(self):
         obj = Cart.objects.get_or_create(user=self.request.user, ordered=False)[0]
         order_items = OrderItem.objects.filter(user=self.request.user, ordered=False)

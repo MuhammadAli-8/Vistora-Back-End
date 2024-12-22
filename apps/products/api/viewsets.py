@@ -14,6 +14,7 @@ class ProductViewSet(viewsets.ModelViewSet):
     queryset = Product.objects.all()
     serializer_class = ProductSerializer
     search_fields = ['name']
+    http_method_names = ['get', 'post', 'delete', 'head', 'options']
     ordering_fields = ['id', 'price']
     filter_backends = [DjangoFilterBackend, SearchFilter, OrderingFilter]
     filterset_fields = {
