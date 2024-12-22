@@ -19,10 +19,10 @@ class UserSerializer(serializers.ModelSerializer):
 class RegisterSerializer(serializers.Serializer):
     first_name = serializers.CharField(write_only=True, required=True, )
     last_name = serializers.CharField(write_only=True, required=True, )
-    # phone = serializers.CharField(
-    #     required=True,
-    #     validators=[UniqueValidator(queryset=get_user_model().objects.all())],
-    # )
+    phone = serializers.CharField(
+         required=True,
+         validators=[UniqueValidator(queryset=get_user_model().objects.all())],
+     )
     email = serializers.EmailField(
         required=True,
         validators=[UniqueValidator(queryset=get_user_model().objects.all())],
@@ -58,7 +58,7 @@ class RegisterSerializer(serializers.Serializer):
             "email": self.validated_data.get("email", ""),
             "first_name": self.validated_data.get("first_name", ""),
             "last_name": self.validated_data.get("last_name", ""),
-            # "phone": self.validated_data.get("phone", ""),
+            "phone": self.validated_data.get("phone", ""),
         }
 
     def save(self, request):
