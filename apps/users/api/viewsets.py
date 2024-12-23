@@ -1,6 +1,10 @@
 from django.contrib.auth import get_user_model
 from rest_framework import viewsets
 from apps.users.api.serializers import UserSerializer
+from django.views.decorators.csrf import csrf_exempt
+from django.utils.decorators import method_decorator
+
+@method_decorator(csrf_exempt, name='dispatch')
 
 class UserViewSet(viewsets.ModelViewSet):
     """
