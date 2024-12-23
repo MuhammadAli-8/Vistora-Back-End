@@ -12,7 +12,7 @@ class OrderItemViewSet(viewsets.ModelViewSet):
 
 class CartViewSet(viewsets.ModelViewSet):
     serializer_class = CartSerializer
-    http_method_names = ['get', 'delete', 'post']
+    http_method_names = ['get', 'delete', 'post','put']
     # allowed_methods = ['get']
     def get_object(self):
         obj = Cart.objects.get_or_create(user=self.request.user, ordered=False)[0]
