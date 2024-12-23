@@ -24,8 +24,6 @@ class CartViewSet(viewsets.ModelViewSet):
         return super().retrieve(request, *args, **kwargs)
 
 
-
-
 class ShippingViewSet(viewsets.ModelViewSet):
     queryset = Shipping.objects.all()
     serializer_class = ShippingSerializer

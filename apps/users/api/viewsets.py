@@ -8,4 +8,4 @@ class UserViewSet(viewsets.ModelViewSet):
     """
     queryset = get_user_model().objects.all()
     serializer_class = UserSerializer
-    http_method_names = ['get', 'post']  # Restrict to 'GET' only, similar to ListAPIView
+    http_method_names = ['get', 'post', 'put']
