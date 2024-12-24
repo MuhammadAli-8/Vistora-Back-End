@@ -189,10 +189,3 @@ python manage.py test
 This project is licensed under the MIT License. See the `LICENSE` file for details.
 
 ---
-
-## Contact
-
-For questions or support, contact:
-
-- **Email**: mohamed.aziz.ali@outlook.com
-
